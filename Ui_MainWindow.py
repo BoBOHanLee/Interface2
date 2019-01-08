@@ -171,7 +171,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
         fps.start()
 
         # for data collection
-        n = 389
+        n = 1000
         flag_roi = 1
         #-----------------------------------------------------------------------------------#
 
@@ -263,7 +263,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     x_rightBot = int(center[0] + 12)
                     y_rightBot = int(center[1] + 46)
 
-                    cv2.rectangle(img, (x_leftTop, y_leftTop), (x_rightBot, y_rightBot), (0, 0, 0), 1)
+                    cv2.rectangle(img, (x_leftTop, y_leftTop), (x_rightBot, y_rightBot), (255, 255, 255), 1)
 
                     img_roi = img[y_leftTop + 1: y_rightBot, x_leftTop + 1: x_rightBot]  # +1主要是去藍色的邊框
                     #img_roi = cv2.resize(img_roi, (60, 60))  # for showing
@@ -271,7 +271,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
                     #---------------------roi data 產生------------------------------------------------------#
                     # 若與前一張roi相比相差太多則不產生data
-                    time.sleep(5)
+                    time.sleep(5)  #每五秒拍次~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     if flag_roi == 1:    #紀錄第一張
                         roi_ref = img_roi.copy()
                         flag_roi = 0
@@ -288,7 +288,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
                         roi_ref = img_roi
                         if  result is False :   #兩張圖片不一樣
                             print(n)
-                            filename = "Data_success/train_{:.0f}.jpg".format(n)
+                            filename = "Data_success_gold/train_{:.0f}.jpg".format(n)
                             cv2.imwrite(filename, img_roi)
                             n += 1
                             img_roi = cv2.resize(img_roi, (60, 60))    # for showing
@@ -308,8 +308,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
                     #print(Hamming_distance)
-
-                    if Hamming_distance>=26 :   #若兩張噴頭的漢明距離相距過大則template更新為原本
+                    cv2.imshow("temp",nozzle)
+                    if Hamming_distance>=10 :   #若兩張噴頭的漢明距離相距過大則template更新為原本
                         nozzle = nozzle_ref
                         Tthreshold = 0.4  # 降低搜索限制
                         extend_y = 20           #擴大區域搜索範圍

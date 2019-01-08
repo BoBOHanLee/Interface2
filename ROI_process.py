@@ -11,6 +11,8 @@ from PIL import Image
 
 
 
+
+
 def template_area(area,img,temp):
     # 定義template 的area搜索範圍
     area_Xmax = 500
@@ -23,7 +25,7 @@ def template_area(area,img,temp):
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
 
 
-    if max_val >= 0.6:     #匹配度最大為1最小為-1
+    if max_val >= 0.65:     #匹配度最大為1最小為-1
 
       print("area search success")
       #框出位置
@@ -72,6 +74,8 @@ def template_3steps(img,center,temp,Tthreshold,extend_y):
 
         print('jump')
         Tthreshold = 0.5    #降低搜索條件
+        #cv2.imshow("haha",temp)
+        temp = cv2.imread("nozzle_2errow2.PNG") #重新refresh樣板
         return (False, img ,center, temp,Tthreshold)   #相差太多 反為原本不做處理
 
     else :
