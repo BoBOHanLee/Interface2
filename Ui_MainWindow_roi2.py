@@ -141,7 +141,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # 定義template 的area搜索範圍
         area_Xmax = 500
         area_Xmin = 250
-        area_Ymax = 520
+        area_Ymax = 510
         area_Ymin = 100
 
         # read the nozzle template
@@ -153,7 +153,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
         fps.start()
 
         # for data collection
-        n = 1000
+        n = 0
         flag_roi = 1
         # -----------------------------------------------------------------------------------#
 
@@ -207,8 +207,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if flag_area == 1:
                 frame_area = frame_equ[area_Ymin:area_Ymax, area_Xmin:area_Xmax]
 
-                # cv2.imshow("d",frame_area)
-                # cv2.waitKey(0)
+                #cv2.imshow("d",frame_area)
+                #cv2.waitKey(0)
 
                 BOOL, img_0, center_O, nozzle_0 = roi.template_area(frame_area, frame_equ, nozzle)
                 if BOOL:
@@ -233,12 +233,12 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
                 # -------------- roi   已噴頭偵測框的底邊中點   大小(24，24)---------------------
                 x_leftTop = int(center[0] - 18)
-                y_leftTop = int(center[1] + 23)
+                y_leftTop = int(center[1] + 25)
                 x_rightBot = int(center[0] + 7)
-                y_rightBot = int(center[1] + 48)
+                y_rightBot = int(center[1] + 50)
 
-                #cv2.line(img,(int(center[0] - 26),int(center[1] + 14)),(x_leftTop, y_leftTop),(0,255,0),2)
-                #cv2.line(img, (int(center[0] + 26), int(center[1] + 14)), (x_rightBot, y_leftTop), (0, 255, 0), 2)
+                cv2.line(img,(int(center[0] - 21),int(center[1] + 14)),(x_leftTop, y_leftTop),(0,255,0),1)
+                cv2.line(img, (int(center[0] + 21), int(center[1] + 14)), (x_rightBot, y_leftTop), (0, 255, 0), 1)
                 cv2.rectangle(img, (x_leftTop, y_leftTop), (x_rightBot, y_rightBot), (255, 255, 255), 1)
 
                 img_roi = img[y_leftTop + 1: y_rightBot, x_leftTop + 1: x_rightBot]  # +1主要是去藍色的邊框
@@ -272,8 +272,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     else:  # 兩張圖片一樣
 
                         img_roi = cv2.resize(img_roi, (60, 60))  # for showing
-                '''
 
+                '''
 
 
                 # -------------跟原樣板比較------------------------------#
@@ -282,7 +282,7 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
                 # print(Hamming_distance)
                 #cv2.imshow("temp", nozzle)
-                if Hamming_distance >= 12:  # 若兩張噴頭的漢明距離相距過大則template更新為原本
+                if Hamming_distance >= 20:  # 若兩張噴頭的漢明距離相距過大則template更新為原本
                     nozzle = nozzle_ref
                     Tthreshold = 0.4  # 降低搜索限制
                     extend_y = 20  # 擴大區域搜索範圍
