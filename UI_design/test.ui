@@ -15,14 +15,17 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>Snoopy.png</normaloff>Snoopy.png</iconset>
+    <normaloff>../../../../../.designer/backup/Snoopy.png</normaloff>../../../../../.designer/backup/Snoopy.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>750</y>
+      <y>730</y>
       <width>1091</width>
       <height>80</height>
      </rect>
@@ -37,6 +40,10 @@
          <weight>75</weight>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(79, 79, 79);
+color: rgb(255, 255, 255);</string>
        </property>
        <property name="text">
         <string>Gcode指令傳輸</string>
@@ -69,6 +76,10 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(79, 79, 79);</string>
+       </property>
        <property name="text">
         <string>開啟影像串流</string>
        </property>
@@ -100,6 +111,10 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(79, 79, 79);</string>
+       </property>
        <property name="text">
         <string>關閉</string>
        </property>
@@ -113,17 +128,17 @@
       <x>310</x>
       <y>10</y>
       <width>871</width>
-      <height>721</height>
+      <height>711</height>
      </rect>
     </property>
     <property name="title">
-     <string>Showing</string>
+     <string>列印畫面</string>
     </property>
     <widget class="QLabel" name="img_main">
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>40</y>
+       <y>20</y>
        <width>780</width>
        <height>585</height>
       </rect>
@@ -135,8 +150,8 @@
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>210</x>
-       <y>640</y>
+       <x>660</x>
+       <y>630</y>
        <width>91</width>
        <height>51</height>
       </rect>
@@ -156,15 +171,55 @@
     <widget class="QLabel" name="img_roi">
      <property name="geometry">
       <rect>
-       <x>360</x>
-       <y>640</y>
+       <x>770</x>
+       <y>630</y>
        <width>60</width>
        <height>60</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(0, 0, 0);</string>
+     </property>
      <property name="text">
       <string/>
      </property>
+    </widget>
+    <widget class="QTableView" name="tableView">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>630</y>
+       <width>501</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(105, 105, 105);</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="midLineWidth">
+      <number>0</number>
+     </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="showGrid">
+      <bool>true</bool>
+     </property>
+     <property name="sortingEnabled">
+      <bool>false</bool>
+     </property>
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>98</number>
+     </attribute>
+     <attribute name="verticalHeaderStretchLastSection">
+      <bool>false</bool>
+     </attribute>
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
@@ -173,24 +228,63 @@
       <x>30</x>
       <y>10</y>
       <width>261</width>
-      <height>411</height>
+      <height>381</height>
      </rect>
     </property>
     <property name="title">
-     <string>列印參數回傳</string>
+     <string>列印參數</string>
     </property>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>241</width>
+       <height>311</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; color:#000000;&quot;&gt;製程 : &lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#000000;&quot;&gt;材料擠製ME&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; color:#000000;&quot;&gt;機台 : XYZ型Prusa i3&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; color:#000000;&quot;&gt;最大列印範圍 : 150x150x150mm&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; color:#000000;&quot;&gt;線材 : 消光PLA&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; color:#000000;&quot;&gt;線材直徑 : 1.75mm&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; color:#000000;&quot;&gt;層高 : 0.2mm&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; color:#000000;&quot;&gt;噴頭溫度 : 225&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; color:#000000;&quot;&gt;平台溫度 : 60&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>440</y>
+      <y>410</y>
       <width>261</width>
-      <height>291</height>
+      <height>311</height>
      </rect>
     </property>
     <property name="title">
-     <string>列印狀態回傳</string>
+     <string>列印狀態</string>
+    </property>
+    <widget class="QLabel" name="label_class">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>211</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt; font-weight:600; color:#000000;&quot;&gt;未連線&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>820</y>
+      <width>171</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-style:italic; color:#0000ff;&quot;&gt;made by AM LAB in 2019&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>
