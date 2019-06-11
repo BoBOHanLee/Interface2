@@ -223,6 +223,12 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # for data collection
         n = 1964
         flag_roi = 1
+
+        #recroding
+        n_fail = 0
+        n_success = 0
+        n_back = 0
+        num_success_2 = 0 #連續10次噴頭無作動就判定列印成功
         # -----------------------------------------------------------------------------------#
         self.label_class.setText("<html><head/><body><p align='center'><span style=' font-size:25pt; font-weight:600; color:#000000;'>未偵測到噴頭</span></p></body></html>")
         # --------------------Deployment the model-------------------#
@@ -460,20 +466,24 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
                              center_ref = center
 
                         # 顯示判斷結果(table)
+                        p_successs = (float)(num_success) / 100
+                        p_fail = (float)(num_fail) / 100
+                        p_back = (float)(num_back) / 100
 
-                        item_success = QStandardItem("{:.0f} %".format(num_success))
+
+                        item_success = QStandardItem("{:.0f} %".format(p_successs*100))
                         item_success.setForeground(QBrush(Qt.yellow))
                         item_success.setFont(QFont("Time",16,QFont.Black))
                         item_success.setTextAlignment(Qt.AlignCenter)
                         model_table.setItem(0, 0, item_success)
 
-                        item_fail = QStandardItem("{:.0f} %".format(num_fail))
+                        item_fail = QStandardItem("{:.0f} %".format(p_fail*100))
                         item_fail.setForeground(QBrush(Qt.red))
                         item_fail.setFont(QFont("Time", 16, QFont.Black))
                         item_fail.setTextAlignment(Qt.AlignCenter)
                         model_table.setItem(0, 1, item_fail)
 
-                        item_back = QStandardItem("{:.0f} %".format(num_back))
+                        item_back = QStandardItem("{:.0f} %".format(p_back*100))
                         item_back.setForeground(QBrush(Qt.red))
                         item_back.setFont(QFont("Time", 16, QFont.Black))
                         item_back.setTextAlignment(Qt.AlignCenter)
@@ -485,10 +495,6 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
                         model_table.setItem(0, 3, item_change)
 
 
-
-                        p_successs = (float)(num_success)/100
-                        p_fail = (float)(num_fail)/100
-                        p_back = (float)(num_back)/100
                         #print(p_fail)
                         '''
                         if p_successs+p_back>0.9 and p_successs>p_back :  #列印成功且正在列印
@@ -497,24 +503,58 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
                             global_gcode.colorLight = Qt.yellow
                         '''
 
-                        if p_back+p_fail>0.9 or num_change > 30:       #無擠出狀態
+                        if p_back+p_fail>0.7 or num_change > 50:       #無擠出狀態
 
-                            if p_back>0.9 and delta_center>=10:
+                            if p_back>0.4 and delta_center>5:
                                 Qclass_label.setText(
                                     "<html><head/><body><p align='center'><span style=' font-size:30pt; font-weight:600; color:#000000;'>中止列印</span></p></body></html>")
                                 global_gcode.colorLight = Qt.red
 
-                            elif p_back>0.9 and delta_center<10 :              #列印成功
-                                Qclass_label.setText(
-                                    "<html><head/><body><p align='center'><span style=' font-size:30pt; font-weight:600; color:#000000;'>列印完成</span></p></body></html>")
-                                global_gcode.colorLight = Qt.green
+                                #紀錄
+                                #filename = "test_photo/back_{:.0f}.jpg".format(n_fail)
+                                #cv2.imwrite(filename,  frame_equ)
+                                #n_fail += 1
+                                self.update()  # 顯示三色燈的狀態
+                                global_gcode.gcode = '\nG4'   #  暫停列印
+                                break
+
+
+                            elif   delta_center<1 :              #列印成功
+                                  num_success_2 += 1
+                                  if num_success_2 == 50:   #連續25次噴頭皆未移動就算列印成功
+                                    Qclass_label.setText(
+                                        "<html><head/><body><p align='center'><span style=' font-size:30pt; font-weight:600; color:#000000;'>列印完成</span></p></body></html>")
+                                    global_gcode.colorLight = Qt.green
+
+                                    # 紀錄
+                                    #filename = "test_photo/Success_{:.0f}.jpg".format(n_success)
+                                    #cv2.imwrite(filename,  frame_equ)
+                                    #n_success += 1
+                                    self.update()  # 顯示三色燈的狀態
+                                    #global_gcode.gcode = '\nG0 X30 Z10 '   #  暫停列印
+                                    break
+                                  else :
+                                      Qclass_label.setText(
+                                          "<html><head/><body><p align='center'><span style=' font-size:30pt; font-weight:600; color:#000000;'>列印中</span></p></body></html>")
+                                      global_gcode.colorLight = Qt.yellow
+                                      self.update()  # 顯示三色燈的狀態
+
 
                             else :
                                 Qclass_label.setText(
                                     "<html><head/><body><p align='center'><span style=' font-size:30pt; font-weight:600; color:#000000;'>中止列印</span></p></body></html>")
                                 global_gcode.colorLight = Qt.red
 
+                                # 紀錄
+                                #filename = "test_photo/Fail_{:.0f}.jpg".format(n_back)
+                                #cv2.imwrite(filename,  frame_equ)
+                                #n_back += 1
+                                self.update()  # 顯示三色燈的狀態
+                                global_gcode.gcode = '\nG4'  # 暫停列印
+                                break
+
                         else:                                      #其他算是列印中
+                            num_success_2 = 0
                             Qclass_label.setText(
                                 "<html><head/><body><p align='center'><span style=' font-size:30pt; font-weight:600; color:#000000;'>列印中</span></p></body></html>")
                             global_gcode.colorLight = Qt.yellow
@@ -546,6 +586,8 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 # ----------------------print the average -------------------------------------#
                 #fps.increment()
                 #print("{:.0f} photos , FPS : {:.0f} ".format(fps._num_occurrences,fps.countsPerSec()))
+
+                time.sleep(.1)  #---------------------------------------------------------------------------------------------每0.1秒偵測一次
 
     def threading_showImage(self):
         # thread = threading.Thread(target=self.showImage_fuction)  # 定义线程
@@ -614,8 +656,8 @@ if __name__ == '__main__':
     time.sleep(1)
 
     #gocde傳輸線程
-    #getGcode = GcodeGet()
-    #getGcode.start()
+    getGcode = GcodeGet()
+    getGcode.start()
     time.sleep(1)
 
     # --------------------------- G U I ---------------------#

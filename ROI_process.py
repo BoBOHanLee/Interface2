@@ -465,7 +465,6 @@ def glcmFeatures(img):
 
 def getQueueValue(q,qq):
     values = []
-    i = 100
     while not q.empty():
       value = q.get()
       values.append(value)
